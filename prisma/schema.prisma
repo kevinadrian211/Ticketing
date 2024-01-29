@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Definición de la entidad Event
+model Event {
+  id          Int       @id @default(autoincrement())
+  title       String
+  date        DateTime
+  venue       String
+  ttickets Ticket[]
+}
+
+// Definición de la entidad Ticket
+model Ticket {
+  id          Int       @id @default(autoincrement())
+  eventId     Int
+  type        String
+  price       Float
+  event       Event     @relation(fields: [eventId], references: [id])
+}
+
+// Definición de la entidad User
+model User {
+  id          Int       @id @default(autoincrement())
+  username    String    @unique
+  email       String    @unique
+  password    String
+}
